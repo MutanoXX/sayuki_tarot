@@ -328,31 +328,22 @@ h2::after {
   display: block;
 }
 
-/* Wing Flapping Animation */
+/* Wing Flapping Animation - OPTIMIZED */
 @keyframes wingFlap {
   0%, 100% {
-    transform: scaleY(1) rotate(0deg);
-  }
-  25% {
-    transform: scaleY(0.7) rotate(-8deg);
+    transform: scaleY(1);
   }
   50% {
-    transform: scaleY(1) rotate(0deg);
-  }
-  75% {
-    transform: scaleY(0.7) rotate(8deg);
+    transform: scaleY(0.6);
   }
 }
 
 .bat-wing-left {
   transform-origin: right center;
-  animation: wingFlap 0.15s ease-in-out infinite;
 }
 
 .bat-wing-right {
   transform-origin: left center;
-  animation: wingFlap 0.15s ease-in-out infinite;
-  animation-delay: 0.075s;
 }
 
 /* Bat Flying Animations */
@@ -421,6 +412,24 @@ h2::after {
   100% {
     opacity: 0;
     transform: translate(calc(100vw + 100px), -100px) rotate(-30deg);
+  }
+}
+
+/* Bat Spiral Animation */
+@keyframes batSpiral {
+  0% {
+    opacity: 0;
+    transform: translate(-150px, 100px) rotate(0deg) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(150px, -200px) rotate(720deg) scale(1);
   }
 }
 

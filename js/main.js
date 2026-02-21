@@ -1,5 +1,5 @@
 // ===================================
-// Gothic Tarot Website - Main JavaScript (OPTIMIZED)
+// Gothic Tarot Website - Main JavaScript (OPTIMIZED WITH BATS)
 // ===================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -73,7 +73,7 @@ function initCursor() {
 }
 
 // ===================================
-// WALLWIND INTRO ANIMATION - OPTIMIZED
+// WALLWIND INTRO ANIMATION - OPTIMIZED WITH BATS
 // ===================================
 
 function initWallwindIntro() {
@@ -87,9 +87,9 @@ function initWallwindIntro() {
     const config = {
         introDuration: 4500,
         fadeOutDuration: 1500,
-        batCount: 6,              // Reduced from 18
-        windLineCount: 4,         // Reduced from 8
-        particleCount: 8          // Reduced from 20
+        batCount: 8,              // Increased from 6 for better visual effect
+        windLineCount: 4,
+        particleCount: 8
     };
 
     // Create wind lines - OPTIMIZED
@@ -122,25 +122,45 @@ function initWallwindIntro() {
         }
     }
 
-    // Create simplified bat SVG
+    // Create bat SVG with glowing red eyes - OPTIMIZED
     function createBatSVG() {
         return `
             <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+                <!-- Left Wing -->
                 <g class="bat-wing-left">
                     <path d="M50 25 Q40 20 30 10 Q20 5 5 15 Q10 20 15 25 Q20 22 25 25 Q30 28 35 25 Q40 22 45 25" fill="#000000"/>
                 </g>
+                <!-- Right Wing -->
                 <g class="bat-wing-right">
                     <path d="M50 25 Q60 20 70 10 Q80 5 95 15 Q90 20 85 25 Q80 22 75 25 Q70 28 65 25 Q60 22 55 25" fill="#000000"/>
                 </g>
+                <!-- Body -->
                 <ellipse cx="50" cy="27" rx="8" ry="10" fill="#000000"/>
+                <!-- Head -->
                 <circle cx="50" cy="18" r="6" fill="#000000"/>
+                <!-- Ears -->
                 <path d="M45 14 L43 8 L47 12" fill="#000000"/>
                 <path d="M55 14 L57 8 L53 12" fill="#000000"/>
-                <circle cx="48" cy="17" r="1.5" fill="#ff3333"/>
-                <circle cx="52" cy="17" r="1.5" fill="#ff3333"/>
+                <!-- Glowing Red Eyes with CSS-based glow -->
+                <circle cx="48" cy="17" r="2" fill="#ff0000" class="bat-eye-glow"/>
+                <circle cx="48" cy="17" r="1.2" fill="#ff3333"/>
+                <circle cx="48" cy="17" r="0.5" fill="#ffffff"/>
+                <circle cx="52" cy="17" r="2" fill="#ff0000" class="bat-eye-glow"/>
+                <circle cx="52" cy="17" r="1.2" fill="#ff3333"/>
+                <circle cx="52" cy="17" r="0.5" fill="#ffffff"/>
             </svg>
         `;
     }
+
+    // Add global SVG styles for eye glow
+    const svgStyle = document.createElement('style');
+    svgStyle.textContent = `
+        .bat-eye-glow {
+            filter: drop-shadow(0 0 2px #ff0000) drop-shadow(0 0 4px #ff0000);
+            opacity: 0.9;
+        }
+    `;
+    document.head.appendChild(svgStyle);
 
     // Create bats container
     const batsContainer = document.createElement('div');
@@ -149,20 +169,21 @@ function initWallwindIntro() {
     introScreen.appendChild(batsContainer);
 
     // Flight patterns
-    const flightTypes = ['fromBottom', 'fromLeft', 'fromRight'];
+    const flightTypes = ['fromBottom', 'fromLeft', 'fromRight', 'diagonal'];
 
-    // Create individual bat - SIMPLIFIED
+    // Create individual bat - WITH WINGS AND GLOWING EYES
     function createBat(index) {
         const bat = document.createElement('div');
         bat.className = 'bat-creature';
         
-        const size = 30 + Math.random() * 40;
+        const size = 35 + Math.random() * 45;
         const flightType = flightTypes[Math.floor(Math.random() * flightTypes.length)];
-        const animationDuration = 3 + Math.random() * 1.5;
-        const delay = Math.random() * 1;
+        const animationDuration = 3.5 + Math.random() * 1.5;
+        const delay = Math.random() * 1.2;
         
         bat.style.width = `${size}px`;
         bat.style.height = `${size * 0.5}px`;
+        bat.style.willChange = 'transform, opacity';
         
         const rotation = -20 + Math.random() * 40;
         const driftX = -100 + Math.random() * 200;
@@ -195,16 +216,29 @@ function initWallwindIntro() {
                 bat.style.setProperty('--rotation', `${15 - Math.random() * 10}deg`);
                 bat.style.animation = `batFlyFromRight ${animationDuration}s ease-in-out ${delay}s forwards`;
                 break;
+                
+            case 'diagonal':
+                bat.style.left = `${Math.random() * 100}%`;
+                bat.style.top = `${Math.random() * 100}%`;
+                bat.style.animation = `batFlyDiagonal ${animationDuration + 1}s ease-out ${delay}s forwards`;
+                break;
         }
         
         bat.innerHTML = createBatSVG();
         
-        // Random wing flap speed
+        // Wing flap animation - optimized
         const wingSpeed = 0.12 + Math.random() * 0.08;
         const leftWing = bat.querySelector('.bat-wing-left');
         const rightWing = bat.querySelector('.bat-wing-right');
-        if (leftWing) leftWing.style.animationDuration = `${wingSpeed}s`;
-        if (rightWing) rightWing.style.animationDuration = `${wingSpeed}s`;
+        if (leftWing) {
+            leftWing.style.transformOrigin = 'right center';
+            leftWing.style.animation = `wingFlap ${wingSpeed}s ease-in-out infinite`;
+        }
+        if (rightWing) {
+            rightWing.style.transformOrigin = 'left center';
+            rightWing.style.animation = `wingFlap ${wingSpeed}s ease-in-out infinite`;
+            rightWing.style.animationDelay = `${wingSpeed * 0.5}s`;
+        }
         
         return bat;
     }
@@ -213,12 +247,12 @@ function initWallwindIntro() {
     createWindLines();
     createIntroParticles();
 
-    // Create bats with staggered timing - OPTIMIZED
+    // Create bats with staggered timing
     for (let i = 0; i < config.batCount; i++) {
         setTimeout(() => {
             const bat = createBat(i);
             batsContainer.appendChild(bat);
-        }, 300 + i * 150);
+        }, 250 + i * 120);
     }
 
     // Play intro sound
@@ -236,7 +270,7 @@ function initWallwindIntro() {
         }, config.fadeOutDuration);
     }, config.introDuration);
 
-    console.log('🦇 Optimized Wallwind intro initialized');
+    console.log('🦇 Optimized Wallwind intro initialized with glowing-eyed bats');
 }
 
 // ===================================
@@ -409,7 +443,7 @@ window.addEventListener('resize', function() {
     }, 250);
 });
 
-console.log('🔮 Sayuki Tarot Website initialized (OPTIMIZED)');
+console.log('🔮 Sayuki Tarot Website initialized (OPTIMIZED WITH BATS)');
 
 // ===================================
 // FLOATING PENTAGRAM DECORATIONS
