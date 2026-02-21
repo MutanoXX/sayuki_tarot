@@ -1,5 +1,5 @@
 // ===================================
-// Gothic Tarot Website - Main JavaScript (OPTIMIZED)
+// Gothic Tarot Website - Main JavaScript
 // ===================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -73,7 +73,16 @@ function initCursor() {
 }
 
 // ===================================
-// WALLWIND INTRO ANIMATION - OPTIMIZED
+// LOADING SCREEN - DEPRECATED
+// ===================================
+
+function initLoadingScreen() {
+    // Legacy function - replaced by initWallwindIntro
+    console.log('Loading screen replaced by Wallwind intro');
+}
+
+// ===================================
+// WALLWIND INTRO ANIMATION
 // ===================================
 
 function initWallwindIntro() {
@@ -85,14 +94,14 @@ function initWallwindIntro() {
 
     // Configuration - OPTIMIZED FOR PERFORMANCE
     const config = {
-        introDuration: 4500,
-        fadeOutDuration: 1500,
-        batCount: 6,              // Reduced from 18
-        windLineCount: 4,         // Reduced from 8
-        particleCount: 8          // Reduced from 20
+        introDuration: 4500,      // Duration before fade out
+        fadeOutDuration: 1500,    // Fade out animation duration
+        batCount: 6,              // Reduced from 18 to 6 for better performance
+        windLineCount: 4,         // Reduced from 8 to 4
+        particleCount: 8          // Reduced from 20 to 8
     };
 
-    // Create wind lines - OPTIMIZED
+    // Create wind lines
     function createWindLines() {
         if (!windLinesContainer) return;
         
@@ -107,7 +116,7 @@ function initWallwindIntro() {
         }
     }
 
-    // Create floating particles - OPTIMIZED
+    // Create floating particles
     function createIntroParticles() {
         if (!particlesContainer) return;
         
@@ -122,44 +131,102 @@ function initWallwindIntro() {
         }
     }
 
-    // Create simplified bat SVG
+    // Create bat SVG with glowing red eyes
     function createBatSVG() {
         return `
             <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+                <!-- Left Wing -->
                 <g class="bat-wing-left">
-                    <path d="M50 25 Q40 20 30 10 Q20 5 5 15 Q10 20 15 25 Q20 22 25 25 Q30 28 35 25 Q40 22 45 25" fill="#000000"/>
+                    <path d="M50 25 
+                             Q40 20 30 10 
+                             Q20 5 5 15 
+                             Q10 20 15 25 
+                             Q20 22 25 25 
+                             Q30 28 35 25 
+                             Q40 22 45 25"
+                          fill="#000000"/>
                 </g>
+                <!-- Right Wing -->
                 <g class="bat-wing-right">
-                    <path d="M50 25 Q60 20 70 10 Q80 5 95 15 Q90 20 85 25 Q80 22 75 25 Q70 28 65 25 Q60 22 55 25" fill="#000000"/>
+                    <path d="M50 25 
+                             Q60 20 70 10 
+                             Q80 5 95 15 
+                             Q90 20 85 25 
+                             Q80 22 75 25 
+                             Q70 28 65 25 
+                             Q60 22 55 25"
+                          fill="#000000"/>
                 </g>
+                <!-- Body -->
                 <ellipse cx="50" cy="27" rx="8" ry="10" fill="#000000"/>
+                <!-- Head -->
                 <circle cx="50" cy="18" r="6" fill="#000000"/>
+                <!-- Ears -->
                 <path d="M45 14 L43 8 L47 12" fill="#000000"/>
                 <path d="M55 14 L57 8 L53 12" fill="#000000"/>
-                <circle cx="48" cy="17" r="1.5" fill="#ff3333"/>
-                <circle cx="52" cy="17" r="1.5" fill="#ff3333"/>
+                <!-- Glowing Red Eyes -->
+                <defs>
+                    <filter id="glow-${Math.random().toString(36).substr(2, 9)}" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="1" result="blur"/>
+                        <feMerge>
+                            <feMergeNode in="blur"/>
+                            <feMergeNode in="blur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <!-- Left Eye with Glow -->
+                <circle cx="48" cy="17" r="1.5" fill="#ff0000" filter="url(#batEyeGlow)"/>
+                <circle cx="48" cy="17" r="1" fill="#ff3333"/>
+                <circle cx="48" cy="17" r="0.5" fill="#ffffff"/>
+                <!-- Right Eye with Glow -->
+                <circle cx="52" cy="17" r="1.5" fill="#ff0000" filter="url(#batEyeGlow)"/>
+                <circle cx="52" cy="17" r="1" fill="#ff3333"/>
+                <circle cx="52" cy="17" r="0.5" fill="#ffffff"/>
             </svg>
         `;
     }
 
-    // Create bats container
+    // Global SVG filter for eye glow (added once to document)
+    const svgFilters = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svgFilters.setAttribute('width', '0');
+    svgFilters.setAttribute('height', '0');
+    svgFilters.setAttribute('style', 'position: absolute;');
+    svgFilters.innerHTML = `
+        <defs>
+            <filter id="batEyeGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                <feFlood flood-color="#ff0000" flood-opacity="1" result="flood"/>
+                <feComposite in="flood" in2="blur" operator="in" result="glow"/>
+                <feMerge>
+                    <feMergeNode in="glow"/>
+                    <feMergeNode in="glow"/>
+                    <feMergeNode in="glow"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
+    `;
+    document.body.appendChild(svgFilters);
+
+    // Create bats container inside intro
     const batsContainer = document.createElement('div');
     batsContainer.className = 'bat-intro-container';
     batsContainer.style.zIndex = '20';
     introScreen.appendChild(batsContainer);
 
     // Flight patterns
-    const flightTypes = ['fromBottom', 'fromLeft', 'fromRight'];
+    const flightTypes = ['fromBottom', 'fromLeft', 'fromRight', 'diagonal', 'spiral'];
 
-    // Create individual bat - SIMPLIFIED
+    // Create individual bat
     function createBat(index) {
         const bat = document.createElement('div');
         bat.className = 'bat-creature';
         
-        const size = 30 + Math.random() * 40;
+        const size = 30 + Math.random() * 50;
         const flightType = flightTypes[Math.floor(Math.random() * flightTypes.length)];
-        const animationDuration = 3 + Math.random() * 1.5;
-        const delay = Math.random() * 1;
+        const animationDuration = 3 + Math.random() * 2;
+        const delay = Math.random() * 1.5;
         
         bat.style.width = `${size}px`;
         bat.style.height = `${size * 0.5}px`;
@@ -195,12 +262,24 @@ function initWallwindIntro() {
                 bat.style.setProperty('--rotation', `${15 - Math.random() * 10}deg`);
                 bat.style.animation = `batFlyFromRight ${animationDuration}s ease-in-out ${delay}s forwards`;
                 break;
+                
+            case 'diagonal':
+                bat.style.left = '-100px';
+                bat.style.bottom = '-100px';
+                bat.style.animation = `batFlyDiagonal ${animationDuration + 1}s ease-out ${delay}s forwards`;
+                break;
+                
+            case 'spiral':
+                bat.style.left = `${40 + Math.random() * 20}%`;
+                bat.style.top = `${40 + Math.random() * 20}%`;
+                bat.style.animation = `batSpiral ${animationDuration + 1}s ease-out ${delay}s forwards`;
+                break;
         }
         
         bat.innerHTML = createBatSVG();
         
         // Random wing flap speed
-        const wingSpeed = 0.12 + Math.random() * 0.08;
+        const wingSpeed = 0.1 + Math.random() * 0.1;
         const leftWing = bat.querySelector('.bat-wing-left');
         const rightWing = bat.querySelector('.bat-wing-right');
         if (leftWing) leftWing.style.animationDuration = `${wingSpeed}s`;
@@ -209,20 +288,39 @@ function initWallwindIntro() {
         return bat;
     }
 
+    // Add spiral animation to CSS dynamically
+    const spiralStyle = document.createElement('style');
+    spiralStyle.textContent = `
+        @keyframes batSpiral {
+            0% {
+                opacity: 0;
+                transform: translate(-150px, 100px) rotate(0deg) scale(0.5);
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(150px, -200px) rotate(720deg) scale(1);
+            }
+        }
+    `;
+    document.head.appendChild(spiralStyle);
+
     // Initialize intro effects
     createWindLines();
     createIntroParticles();
 
-    // Create bats with staggered timing - OPTIMIZED
+    // Create bats with staggered timing
     for (let i = 0; i < config.batCount; i++) {
         setTimeout(() => {
             const bat = createBat(i);
             batsContainer.appendChild(bat);
-        }, 300 + i * 150);
+        }, 200 + i * 100); // Stagger bat creation
     }
-
-    // Play intro sound
-    playIntroSound();
 
     // Fade out intro and show main content
     setTimeout(() => {
@@ -236,23 +334,7 @@ function initWallwindIntro() {
         }, config.fadeOutDuration);
     }, config.introDuration);
 
-    console.log('🦇 Optimized Wallwind intro initialized');
-}
-
-// ===================================
-// INTRO SOUND EFFECT
-// ===================================
-
-function playIntroSound() {
-    try {
-        const audio = new Audio('audio/intro-wind.mp3');
-        audio.volume = 0.4; // 40% volume
-        audio.play().catch(err => {
-            console.log('Audio playback failed (may be due to autoplay policy):', err);
-        });
-    } catch (err) {
-        console.log('Audio initialization failed:', err);
-    }
+    console.log('🦇 Wallwind intro initialized with glowing-eyed bats');
 }
 
 // ===================================
@@ -278,14 +360,13 @@ function initSmoothScroll() {
 }
 
 // ===================================
-// ANIMATIONS
+// ANIMATIONS ON SCROLL
 // ===================================
 
 function initAnimations() {
-    // Intersection Observer for fade-in animations
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver(function(entries) {
@@ -297,10 +378,132 @@ function initAnimations() {
         });
     }, observerOptions);
 
-    // Observe elements
-    document.querySelectorAll('.service-card, .step, .contact-item, section').forEach(el => {
+    // Observe all sections
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+    });
+
+    // Observe cards and steps
+    document.querySelectorAll('.service-card, .step, .contact-item').forEach(el => {
         observer.observe(el);
     });
+}
+
+// ===================================
+// PARTICLES CONFIGURATION
+// ===================================
+
+if (typeof particlesJS !== 'undefined') {
+    particlesJS('particles-js', {
+        'particles': {
+            'number': {
+                'value': 50,
+                'density': {
+                    'enable': true,
+                    'value_area': 800
+                }
+            },
+            'color': {
+                'value': '#4a0a0a'
+            },
+            'shape': {
+                'type': 'circle'
+            },
+            'opacity': {
+                'value': 0.3,
+                'random': true,
+                'anim': {
+                    'enable': true,
+                    'speed': 1,
+                    'opacity_min': 0.1,
+                    'sync': false
+                }
+            },
+            'size': {
+                'value': 3,
+                'random': true,
+                'anim': {
+                    'enable': true,
+                    'speed': 2,
+                    'size_min': 0.1,
+                    'sync': false
+                }
+            },
+            'line_linked': {
+                'enable': true,
+                'distance': 150,
+                'color': '#4a0a0a',
+                'opacity': 0.2,
+                'width': 1
+            },
+            'move': {
+                'enable': true,
+                'speed': 1,
+                'direction': 'none',
+                'random': true,
+                'straight': false,
+                'out_mode': 'out',
+                'bounce': false,
+                'attract': {
+                    'enable': false,
+                    'rotateX': 600,
+                    'rotateY': 1200
+                }
+            }
+        },
+        'interactivity': {
+            'detect_on': 'canvas',
+            'events': {
+                'onhover': {
+                    'enable': false,
+                    'mode': 'grab'
+                },
+                'onclick': {
+                    'enable': false,
+                    'mode': 'push'
+                },
+                'resize': true
+            },
+            'modes': {
+                'grab': {
+                    'distance': 140,
+                    'line_linked': {
+                        'opacity': 0.5
+                    }
+                },
+                'push': {
+                    'particles_nb': 4
+                }
+            }
+        },
+        'retina_detect': true
+    });
+}
+
+// ===================================
+// SOUND CONTROL (OPTIONAL)
+// ===================================
+
+let ambientSound = null;
+let soundEnabled = false;
+
+function toggleSound() {
+    const soundBtn = document.querySelector('.sound-toggle');
+
+    if (soundEnabled) {
+        if (ambientSound) {
+            ambientSound.pause();
+        }
+        soundEnabled = false;
+        soundBtn.textContent = '🔇';
+    } else {
+        // Note: Add your ambient sound file path here
+        // ambientSound = new Audio('path/to/ambient-sound.mp3');
+        // ambientSound.loop = true;
+        // ambientSound.play();
+        soundEnabled = true;
+        soundBtn.textContent = '🔊';
+    }
 }
 
 // ===================================
@@ -364,12 +567,24 @@ window.addEventListener('scroll', function() {
 });
 
 // ===================================
+// SERVICE CARD CLICK TRACKING
+// ===================================
+
+// Removido listener que poderia interferir no redirecionamento nativo do navegador
+// A animação de clique pode ser feita via CSS :active para evitar JS desnecessário
+
+// ===================================
 // MOBILE OPTIMIZATIONS
 // ===================================
 
 if (window.innerWidth <= 768) {
     // Disable custom cursor on mobile
     document.body.style.cursor = 'auto';
+
+    // Optimize animations for mobile
+    document.querySelectorAll('.bat, .spider').forEach(el => {
+        el.style.animationDuration = '25s';
+    });
 }
 
 // ===================================
@@ -401,15 +616,22 @@ window.addEventListener('resize', function() {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(function() {
         // Re-initialize cursor for desktop/mobile switch
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+
         if (window.innerWidth > 768) {
-            document.body.style.cursor = 'url(\'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="20" font-size="20">✝</text></svg>\'), auto';
+            if (cursor) cursor.style.display = 'block';
+            if (cursorDot) cursorDot.style.display = 'block';
         } else {
+            if (cursor) cursor.style.display = 'none';
+            if (cursorDot) cursorDot.style.display = 'none';
             document.body.style.cursor = 'auto';
         }
     }, 250);
 });
 
-console.log('🔮 Sayuki Tarot Website initialized (OPTIMIZED)');
+console.log('🔮 Sayuki Tarot Website initialized');
+
 
 // ===================================
 // FLOATING PENTAGRAM DECORATIONS
@@ -558,4 +780,38 @@ function enhanceDarkEffects() {
 // Enhance dark effects
 enhanceDarkEffects();
 
+// ===================================
+// MYSTICAL PARTICLE EFFECTS
+// ===================================
+
+function createMysticalParticles() {
+    const container = document.querySelector('.hero');
+    
+    if (!container) return;
+    
+    function createParticle() {
+        const particle = document.createElement('div');
+        particle.style.position = 'absolute';
+        particle.style.width = '2px';
+        particle.style.height = '2px';
+        particle.style.background = 'rgba(102, 0, 0, 0.5)';
+        particle.style.borderRadius = '50%';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animation = `float ${3 + Math.random() * 4}s ease-in infinite`;
+        particle.style.pointerEvents = 'none';
+        
+        container.appendChild(particle);
+        
+        setTimeout(() => particle.remove(), 7000);
+    }
+    
+    // Create particles periodically
+    setInterval(createParticle, 500);
+}
+
+// Initialize mystical particles
+createMysticalParticles();
+
 console.log('🔮 Enhanced dark effects and mystical animations initialized');
+
