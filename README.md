@@ -6,8 +6,6 @@ Site completo e responsivo para serviços de tarot com estética gótica dark.
 
 - **Nome Artístico**: Sayuki
 - **Especialidade**: Tarot, Sibilla Italiana e Oráculos
-- **WhatsApp**: +55 65 99268-240
-- **Instagram**: @s44yuk1
 
 ## 🎨 Características
 
@@ -92,58 +90,9 @@ SASA/
 - Mensagens pré-definidas e codificadas
 - Botão flutuante sempre visível
 
-## 🔗 Links de WhatsApp
+## 🔗 Contato
 
-Todos os links estão configurados com o número correto:
-- **Número**: 5565992682400
-- **Formato**: `https://wa.me/5565992682400?text=[mensagem]`
-
-### Links disponíveis:
-
-1. **Contato Geral**:
-   ```
-   https://wa.me/5565992682400?text=Ol%C3%A1%20Sayuki!%20Gostaria%20de%20saber%20mais%20sobre%20as%20consultas%20de%20tarot
-   ```
-
-2. **1 Pergunta (R$ 10,05)**:
-   ```
-   https://wa.me/5565992682400?text=Ol%C3%A1%20Sayuki!%20Gostaria%20de%20agendar%20uma%20leitura%20de%201%20pergunta%20(R%24%2010%2C05)
-   ```
-
-3. **2 Perguntas (R$ 20,05)**:
-   ```
-   https://wa.me/5565992682400?text=Ol%C3%A1%20Sayuki!%20Gostaria%20de%20agendar%20uma%20leitura%20de%202%20perguntas%20(R%24%2020%2C05)
-   ```
-
-4. **3 Perguntas (R$ 35,05)**:
-   ```
-   https://wa.me/5565992682400?text=Ol%C3%A1%20Sayuki!%20Gostaria%20de%20agendar%20uma%20leitura%20de%203%20perguntas%20(R%24%2035%2C05)
-   ```
-
-5. **4 Perguntas + Conselho (R$ 50,05)**:
-   ```
-   https://wa.me/5565992682400?text=Ol%C3%A1%20Sayuki!%20Gostaria%20de%20agendar%20uma%20leitura%20de%204%20perguntas%20%2B%201%20conselho%20gr%C3%A1tis%20(R%24%2050%2C05)
-   ```
-
-6. **Templo de Afrodite (R$ 50,05)**:
-   ```
-   https://wa.me/5565992682400?text=Ol%C3%A1%20Sayuki!%20Gostaria%20de%20agendar%20o%20m%C3%A9todo%20Templo%20de%20Afrodite%20(R%24%2050%2C05)
-   ```
-
-7. **Templo do Diabo (R$ 50,05)**:
-   ```
-   https://wa.me/5565992682400?text=Ol%C3%A1%20Sayuki!%20Gostaria%20de%20agendar%20o%20m%C3%A9todo%20Templo%20do%20Diabo%20(R%24%2050%2C05)
-   ```
-
-8. **Templo de Hefesto (R$ 50,05)**:
-   ```
-   https://wa.me/5565992682400?text=Ol%C3%A1%20Sayuki!%20Gostaria%20de%20agendar%20o%20m%C3%A9todo%20Templo%20de%20Hefesto%20(R%24%2050%2C05)
-   ```
-
-9. **Método Ferradura (R$ 50,05)**:
-   ```
-   https://wa.me/5565992682400?text=Ol%C3%A1%20Sayuki!%20Gostaria%20de%20agendar%20o%20M%C3%A9todo%20Ferradura%20(R%24%2050%2C05)
-   ```
+Os canais para contato estão disponíveis diretamente no site. Dados pessoais e links com número de telefone foram omitidos desta documentação.
 
 ## 🎨 Personalização
 
@@ -198,11 +147,9 @@ O site é totalmente responsivo e funciona em:
 4. ✅ Fazer deploy no Vercel
 5. ✅ Compartilhar nas redes sociais
 
-## 📞 Suporte
+## Suporte
 
-Para dúvidas ou alterações, entre em contato:
-- WhatsApp: +55 65 99268-240
-- Instagram: @s44yuk1
+Para dúvidas ou alterações, utilize os canais de contato indicados diretamente no site.
 
 ---
 
